@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
-use MongoDB\Driver\Session;
+/*use MongoDB\Driver\Session;*/
 
 class UserController extends Controller
 {
