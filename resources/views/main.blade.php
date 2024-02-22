@@ -16,20 +16,27 @@
     </nav>
 </header>
 <main>
-{{--    <section class="uploads">
-        <h2>Upload Files</h2>
-        <input type="file">
-        <button>Upload</button>
-    </section>--}}
-    <section class="files">
-        <h2>Your Files</h2>
-        <ul>
+    <div class="container">
+        <form method="POST" action="{{route("main")}}" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Загрузить файл</label>
+                <input class="form-control" name="file" type="file" id="formFile">
+            </div>
+            <input type="submit" class="btn btn-primary">
+        </form>
+    </div>
+    <h2>
+        Your Files
+    </h2>
+    <ul>
+        @foreach ($fileUrls as $fileUrl)
+            <a href="{{ $fileUrl }}">{{ $fileUrl }}</a><br>
+        @endforeach
 
-        </ul>
-    </section>
+    </ul>
 </main>
 <footer>
-
 </footer>
 </body>
 </html>
