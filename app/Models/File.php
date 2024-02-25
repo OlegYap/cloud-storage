@@ -14,7 +14,11 @@ class File extends Model
         'size',
         'type',
         'user_id',
-        'folder_id' => null
+        'folder_id'
+    ];
+
+    protected $attributes = [
+        'folder_id' => null,
     ];
     public $timestamps = false; // Решает проблему со столбцами updated_at, created_at. Команда отключает автоматическое вставление данных в столбцы.
 
