@@ -35,4 +35,11 @@ class FileController
 
         return response()->download($pathToFile);
     }
+
+    public function viewFiles($fileName)
+    {
+        $file = File::where('name', $fileName)->firstOrFail();
+        $pathToFile = public_path('uploads/' . $file->name);
+        return response()->file($pathToFile);
+    }
 }

@@ -28,3 +28,4 @@ Route::get('/signout', [UserController::class, 'signOut'])->name('signout');
 Route::get('/main', [MainController::class, 'getMainPage'])->name('main');
 Route::post('/main', [FileController::class, 'uploadFiles'])->name('main');
 Route::get('/download/{file}', [FileController::class, 'downloadFiles'])->name('download');
+Route::get('/view/{file}', [FileController::class, 'viewFiles'])->name('viewFiles');

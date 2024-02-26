@@ -34,7 +34,7 @@
             <li>
                 <a href="{{ asset('storage/' . $file->name) }}">{{ $file->name }}</a>
                 <br>
-                <a href="{{ route('download', ['file' => $file->name]) }}" class="btn btn-primary">Download</a>
+                <a href="{{ route('download', ['file' => $file->name]) }}" class="btn btn-primary">Download</a>  <a href="{{ route('viewFiles', ['file' => $file->name]) }}" class="btn btn-primary">View</a>
             </li>
         @endforeach
     </ul>
