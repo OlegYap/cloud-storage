@@ -18,10 +18,3 @@ class MainController
         return view('main', ['files' => $files]);
     }
 }
-
-/*       $files = Storage::files('uploads');
-       $fileUrls = [];
-       foreach ($files as $file) {
-           $fileUrls[] = Storage::url($file);
-       }
-       return view('main', ['fileUrls' => $files]);*/

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,13 +20,9 @@ class UserController extends Controller
         return view('register');
     }
 
-    public function postRegistration(Request $request)
+    public function postRegistration(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
+        $errors[] = $request->validated();
         $data = $request->all();
         $this->create($data);
         return redirect(url("login"))->withSuccess('You have signed-in');
@@ -43,12 +41,9 @@ class UserController extends Controller
         return view('login');
     }
 
-    public function postLogin(Request $request)
+    public function postLogin(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
+        $errors[] = $request->validated();
         $credentials = $request->only('email','password');
         if (Auth::attempt($credentials)) {
             return redirect(url("main"))->withSuccess('Signed in');

@@ -1,6 +1,6 @@
 @extends('layouts')
 @section('content')
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +34,8 @@
             <li>
                 <a href="{{ asset('storage/' . $file->name) }}">{{ $file->name }}</a>
                 <br>
-                <a href="{{ route('download', ['file' => $file->name]) }}" class="btn btn-primary">Download</a>  <a href="{{ route('viewFiles', ['file' => $file->name]) }}" class="btn btn-primary">View</a>
+                <a href="{{ route('download', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">Download</a>
+                <a href="{{ route('viewFile', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">View</a>
             </li>
         @endforeach
     </ul>
@@ -44,7 +45,3 @@
 </body>
 </html>
 @endsection
-
-{{--        @foreach ($fileUrls as $fileUrl)
-            <a href="{{ $fileUrl }}">{{ $fileUrl }}</a><br>
-        @endforeach--}}
