@@ -23,16 +23,17 @@ class FolderController extends Controller
         return redirect()->route('main');
     }
 
-    public function viewFolder($user_id, $folder_id)
+    public function viewFolder(int $user_id, int $folder_id)
     {
         $folder = Folder::where('id', $folder_id)->where('user_id', $user_id)->firstOrFail();
+        $files = File::where('folder_id', $folder_id)->get();
         if ($folder->user_id !== Auth::id()) {
             return redirect()->route('login');
         }
-        return view('folder', ['folder' => $folder]);
+        return view('folder', compact('folder', 'files'));
     }
 
-    public function uploadFile(FileRequest $request, Folder $folder)
+    public function uploadFile(FileRequest $request)
     {
         $errors = $request->validated();
         $file = $request->file('file');
@@ -52,11 +53,5 @@ class FolderController extends Controller
         } else {
             return view('errorFile');
         }
-    }
-
-    public function getFile($folder_id)
-    {
-        $files = File::where('folder_id', $folder_id)->get();
-        return view('folder', ['files' => $files]);
     }
 }

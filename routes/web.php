@@ -37,4 +37,9 @@ Route::get('/view/{user_id}/{file_id}', [FileController::class, 'viewFile'])->na
 Route::post('/create',[FolderController::class, 'createFolder'])->name('folder');
 Route::get('/viewFolder/{user_id}/{folder_id}', [FolderController::class, 'viewFolder'])->name('viewFolder');
 Route::post('uploadFile',[FolderController::class, 'uploadFile'])->name('upload');
-Route::get('getFile', [FolderController::class, 'getFile'])->name('getFile');
+Route::get('getFile/{folder_id}', [FolderController::class, 'getFile'])->name('getFile');
+
+
+Route::get('sendbasicemail',[\App\Http\Controllers\MailController::class, 'basic_email']);
+/*Route::get('sendhtmlemail','MailController@html_email');
+Route::get('sendattachmentemail','MailController@attachment_email');*/
