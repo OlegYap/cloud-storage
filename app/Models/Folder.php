@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Folder extends Model
 {
     use HasFactory;
+    protected $table = 'file_folders';
+
     protected $fillable = [
-      'name',
-      'user_id',
-      'parent_id'
+        'name',
+        'user_id',
+        'parent_id'
     ];
+    public $timestamps = false; // Решает проблему со столбцами updated_at, created_at. Команда отключает автоматическое вставление данных в столбцы.
 }

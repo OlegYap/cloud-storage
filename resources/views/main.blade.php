@@ -26,6 +26,17 @@
             <input type="submit" class="btn btn-primary">
         </form>
     </div>
+    <div class="container">
+        <form method="POST" action="{{ route('folder') }}">
+            @csrf
+            <div class="mb-3">
+                <label for="folder" class="form-label">Создать папку</label>
+                <input class="form-control" name="name" type="text" id="folder" required>
+            </div>
+            {{--<input type="hidden" name="parent_id" value="{{ $parentId ?? null }}">--}}
+            <button type="submit" class="btn btn-primary">Создать папку</button>
+        </form>
+    </div>
     <h2>
         Your Files
     </h2>
@@ -36,6 +47,15 @@
                 <br>
                 <a href="{{ route('download', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">Download</a>
                 <a href="{{ route('viewFile', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">View</a>
+            </li>
+        @endforeach
+    </ul>
+    <ul>
+        @foreach($folders as $folder)
+            <li>
+                <a href="{{route('folder')}}">{{$folder->name}}</a>
+                <br>
+                <a href="{{ route('viewFolder', ['user_id' => Auth::id(), 'folder_id' => $folder->id]) }}" class="btn btn-primary">View</a>
             </li>
         @endforeach
     </ul>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\FileRequest;
 use App\Models\File;
+use App\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +14,7 @@ class FileController
     public function uploadFile(FileRequest $request)
     {
         try {
-            $errors[] = $request->validated();
+            $errors = $request->validated();
             $file = $request->file('file');
             $destinationPath = "uploads/";
             $fileName = $file->getClientOriginalName();
@@ -24,7 +25,7 @@ class FileController
                 $fileData->size = $file->getSize();
                 $fileData->type = $file->getClientMimeType();
                 $fileData->user_id = Auth::id();
-                $fileData->folder_id = 1;
+                $fileData->folder_id = 0;
                 $fileData->save();
                 return redirect(url("main"));
             } else {
@@ -37,6 +38,7 @@ class FileController
             return view('errorFile');
         }
     }
+
     public function downloadFile(int $user_id, int $file_id)
     {
         $file = File::where('id', $file_id)->where('user_id', $user_id)->firstOrFail();

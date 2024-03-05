@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\Folder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,6 +16,7 @@ class MainController
         }
         $userId = Auth::id();
         $files = File::where('user_id', $userId)->get();
-        return view('main', ['files' => $files]);
+        $folders = Folder::where('user_id', $userId)->get();
+        return view('main', ['files' => $files, 'folders' => $folders]);
     }
 }
