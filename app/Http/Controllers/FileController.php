@@ -39,8 +39,9 @@ class FileController
         }
     }
 
-    public function downloadFile(int $user_id, int $file_id)
+    public function downloadFile(int $file_id)
     {
+        $user_id = Auth::id();
         $file = File::where('id', $file_id)->where('user_id', $user_id)->firstOrFail();
         if ($file->user_id !== Auth::id()) {
             return redirect()->route('login');
@@ -50,8 +51,9 @@ class FileController
         return response()->download($pathToFile);
     }
 
-    public function viewFile(int $user_id, int $file_id)
+    public function viewFile(int $file_id)
     {
+        $user_id = Auth::id();
         $file = File::where('id', $file_id)->where('user_id', $user_id)->firstOrFail();
         if ($file->user_id !== Auth::id()) {
             return redirect()->route('login');

@@ -33,14 +33,15 @@ return [
     |
     */
 
+
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
+            'host' => env('MAIL_HOST', 'app.debugmail.io'),
+            'port' => env('MAIL_PORT', 9025),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'username' => env('c5d8c11e-a17b-4779-ad78-954bfcf1c5d7'),
+            'password' => env('ddcbb82d-a063-4ce3-88c0-9ed94e3a7cc0'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
@@ -59,7 +60,7 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
+            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs'),
         ],
 
         'log' => [
@@ -92,8 +93,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'john.doe@example.org'),
+        'name' => env('MAIL_FROM_NAME', 'John Doe'),
     ],
 
     /*
@@ -114,5 +115,20 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
 ];
+
+/*array
+(
+    "driver" => "smtp",
+    "host" => "app.debugmail.io",
+    "port" => "9025",
+    "from" => array(
+        "address" => "john.doe@example.org",
+        "name" => "John Doe"
+    ),
+    "encryption" => "tls",
+    "username" => "c5d8c11e-a17b-4779-ad78-954bfcf1c5d7",
+    "password" => "ddcbb82d-a063-4ce3-88c0-9ed94e3a7cc0",
+    "sendmail" => "/usr/sbin/sendmail -bs",
+    "pretend" => false
+)*/

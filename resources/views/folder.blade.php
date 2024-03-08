@@ -27,14 +27,31 @@
             <input type="submit" class="btn btn-primary">
         </form>
     </div>
+    <div class="container">
+        <form method="POST" action="{{ route('subFolder', ['parent_id' => $folder->id]) }}">
+            @csrf
+            <div class="mb-3">
+                <label for="folder" class="form-label">Создать папку</label>
+                <input class="form-control" name="name" type="text" id="folder" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Создать папку</button>
+        </form>
+    </div>
     <h2>Files</h2>
     <ul>
         @foreach($files as $file)
             <li>
                 <a href="{{ asset('storage/' . $file->name) }}">{{ $file->name }}</a>
                 <br>
-                <a href="{{ route('download', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">Download</a>
-                <a href="{{ route('viewFile', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">View</a>
+                <a href="{{ route('download', ['file_id' => $file->id]) }}" class="btn btn-primary">Download</a>
+                <a href="{{ route('viewFile', ['file_id' => $file->id]) }}" class="btn btn-primary">View</a>
+            </li>
+        @endforeach
+    </ul>
+    <ul>
+        @foreach($subfolders as $subfolder)
+            <li>
+                <a href="{{ route('viewFolder', ['folder_id' => $subfolder->id]) }}">{{ $subfolder->name }}</a>
             </li>
         @endforeach
     </ul>

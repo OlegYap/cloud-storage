@@ -33,7 +33,7 @@
                 <label for="folder" class="form-label">Создать папку</label>
                 <input class="form-control" name="name" type="text" id="folder" required>
             </div>
-            {{--<input type="hidden" name="parent_id" value="{{ $parentId ?? null }}">--}}
+            <input type="hidden" name="parent_id" value="{{ $parentId ?? null }}">
             <button type="submit" class="btn btn-primary">Создать папку</button>
         </form>
     </div>
@@ -45,8 +45,8 @@
             <li>
                 <a href="{{ asset('storage/' . $file->name) }}">{{ $file->name }}</a>
                 <br>
-                <a href="{{ route('download', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">Download</a>
-                <a href="{{ route('viewFile', ['user_id' => Auth::id(), 'file_id' => $file->id]) }}" class="btn btn-primary">View</a>
+                <a href="{{ route('download', ['file_id' => $file->id]) }}" class="btn btn-primary">Download</a>
+                <a href="{{ route('viewFile', ['file_id' => $file->id]) }}" class="btn btn-primary">View</a>
             </li>
         @endforeach
     </ul>
@@ -55,7 +55,7 @@
             <li>
                 <a href="{{route('folder')}}">{{$folder->name}}</a>
                 <br>
-                <a href="{{ route('viewFolder', ['user_id' => Auth::id(), 'folder_id' => $folder->id]) }}" class="btn btn-primary">View</a>
+                <a href="{{ route('viewFolder', [ 'folder_id' => $folder->id]) }}" class="btn btn-primary">View</a>
             </li>
         @endforeach
     </ul>
