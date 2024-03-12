@@ -33,7 +33,6 @@
                 <label for="folder" class="form-label">Создать папку</label>
                 <input class="form-control" name="name" type="text" id="folder" required>
             </div>
-            <input type="hidden" name="parent_id" value="{{ $parentId ?? null }}">
             <button type="submit" class="btn btn-primary">Создать папку</button>
         </form>
     </div>

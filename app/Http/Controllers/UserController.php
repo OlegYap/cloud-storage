@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function postRegistration(RegisterRequest $request)
     {
-        $errors[] = $request->validated();
+        $request->validated();
         $data = $request->all();
         $this->create($data);
         return redirect(url("login"))->withSuccess('You have signed-in');
@@ -43,7 +43,7 @@ class UserController extends Controller
 
     public function postLogin(LoginRequest $request)
     {
-        $errors[] = $request->validated();
+        $request->validated();
         $credentials = $request->only('email','password');
         if (Auth::attempt($credentials)) {
             return redirect(url("main"))->withSuccess('Signed in');

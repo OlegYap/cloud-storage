@@ -12,9 +12,9 @@ class FolderController extends Controller
 {
     public function createFolder(FolderRequest $request)
     {
-        $errors = $request->validated();
+        $request->validated();
         $folder = new Folder([
-            'name' => $errors['name'],
+            'name' => $request['name'],
             'user_id' => Auth::id(),
             'parent_id' => 0
         ]);
@@ -22,16 +22,15 @@ class FolderController extends Controller
         return redirect()->route('main');
     }
 
-    public function viewFolder(int $folder_id)
+    public function viewFolder(int $folderId)
     {
-        $user_id = Auth::id();
-        $folder = Folder::where('id', $folder_id)->where('user_id', $user_id)->firstOrFail();
-        $files = File::where('folder_id', $folder_id)->get();
-        $subfolders = Folder::where('parent_id', $folder_id)->get();
-
+        $userId = Auth::id();
+        $folder = Folder::where('id', $folderId)->where('user_id', $userId)->firstOrFail();
         if ($folder->user_id !== Auth::id()) {
             return redirect()->route('login');
         }
+        $files = File::where('folder_id', $folderId)->get();
+        $subfolders = Folder::where('parent_id', $folderId)->get();
 
         return view('folder', compact('folder', 'files', 'subfolders'));
     }
@@ -39,7 +38,7 @@ class FolderController extends Controller
     public function uploadFile(FileRequest $request)
     {
         try {
-            $errors = $request->validated();
+            $request->validated();
             $file = $request->file('file');
             $folderId = $request->input('folder_id');
             $destinationPath = public_path('uploads');
@@ -65,15 +64,15 @@ class FolderController extends Controller
         }
     }
 
-    public function createSubfolder(FolderRequest $request, $parent_id)
+    public function createSubfolder(FolderRequest $request, int $parentId) //Попробовать передать parent_id в body
     {
-        $errors = $request->validated();
+        $request->validated();
         $subFolder = new Folder([
-            'name' => $errors['name'],
+            'name' => $request['name'],
             'user_id' => Auth::id(),
-            'parent_id' => $parent_id
+            'parent_id' => $parentId
         ]);
         $subFolder->save();
-        return redirect()->route('viewFolder', ['folder_id' => $parent_id]);
+        return redirect()->route('viewFolder', ['folder_id' => $parentId]);
     }
 }

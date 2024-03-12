@@ -3,7 +3,6 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\SubFolderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +38,7 @@ Route::get('/view/{file_id}', [FileController::class, 'viewFile'])->name('viewFi
 Route::post('/create',[FolderController::class, 'createFolder'])->name('folder');
 Route::get('/viewFolder/{folder_id}', [FolderController::class, 'viewFolder'])->name('viewFolder');
 Route::post('uploadFile',[FolderController::class, 'uploadFile'])->name('upload');
-Route::get('getFile/{folder_id}', [FolderController::class, 'getFile'])->name('getFile');
+/*Route::get('getFile/{folder_id}', [FolderController::class, 'getFile'])->name('getFile');*/
 
 Route::post('create/{parent_id}', [FolderController::class, 'createSubfolder'])->name('subFolder');
 

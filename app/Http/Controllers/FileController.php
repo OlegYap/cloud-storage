@@ -14,7 +14,7 @@ class FileController
     public function uploadFile(FileRequest $request)
     {
         try {
-            $errors = $request->validated();
+            $request->validated();
             $file = $request->file('file');
             $destinationPath = "uploads/";
             $fileName = $file->getClientOriginalName();
@@ -39,10 +39,10 @@ class FileController
         }
     }
 
-    public function downloadFile(int $file_id)
+    public function downloadFile(int $fileId)
     {
-        $user_id = Auth::id();
-        $file = File::where('id', $file_id)->where('user_id', $user_id)->firstOrFail();
+        $userId = Auth::id();
+        $file = File::where('id', $fileId)->where('user_id', $userId)->firstOrFail();
         if ($file->user_id !== Auth::id()) {
             return redirect()->route('login');
         }
@@ -51,10 +51,10 @@ class FileController
         return response()->download($pathToFile);
     }
 
-    public function viewFile(int $file_id)
+    public function viewFile(int $fileId)
     {
-        $user_id = Auth::id();
-        $file = File::where('id', $file_id)->where('user_id', $user_id)->firstOrFail();
+        $userId = Auth::id();
+        $file = File::where('id', $fileId)->where('user_id', $userId)->firstOrFail();
         if ($file->user_id !== Auth::id()) {
             return redirect()->route('login');
         }
