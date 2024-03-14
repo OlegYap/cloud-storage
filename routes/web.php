@@ -4,6 +4,8 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,9 +40,22 @@ Route::get('/view/{file_id}', [FileController::class, 'viewFile'])->name('viewFi
 Route::post('/create',[FolderController::class, 'createFolder'])->name('folder');
 Route::get('/viewFolder/{folder_id}', [FolderController::class, 'viewFolder'])->name('viewFolder');
 Route::post('uploadFile',[FolderController::class, 'uploadFile'])->name('upload');
-/*Route::get('getFile/{folder_id}', [FolderController::class, 'getFile'])->name('getFile');*/
 
 Route::post('create/{parent_id}', [FolderController::class, 'createSubfolder'])->name('subFolder');
+
+Route::get('/email/verify', function (){
+    return view('verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/login');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+   $request->user()->sendEmailVerificationNotification();
+   return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('sendbasicemail',[MailController::class, 'basic_email']);
 Route::get('sendhtmlemail',[MailController::class, 'html_email']);

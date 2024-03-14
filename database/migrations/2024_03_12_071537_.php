@@ -14,8 +14,14 @@ return new class extends Migration
     public function up()
     {
         //
-        Schema::table('files', function (Blueprint $table){
-            $table->string('path')->after('name');
+        Schema::create('files', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('path');
+            $table->string('size');
+            $table->string('type');
+            $table->integer('user_id');
+            $table->integer('folder_id');
         });
     }
 
@@ -27,5 +33,6 @@ return new class extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('files');
     }
 };

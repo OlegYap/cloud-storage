@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Auth\Events\Registered;
 /*use MongoDB\Driver\Session;*/
 
 class UserController extends Controller
@@ -24,7 +25,9 @@ class UserController extends Controller
     {
         $request->validated();
         $data = $request->all();
-        $this->create($data);
+        $user = $this->create($data);
+        $user->sendEmailVerificationNotification();
+        event(new Registered($user));
         return redirect(url("login"))->withSuccess('You have signed-in');
     }
 
@@ -36,6 +39,7 @@ class UserController extends Controller
             'password' => Hash::make($data['password'])
         ]);
     }
+
     public function getLogin()
     {
         return view('login');

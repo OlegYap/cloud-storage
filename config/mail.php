@@ -40,8 +40,8 @@ return [
             'host' => env('MAIL_HOST', 'app.debugmail.io'),
             'port' => env('MAIL_PORT', 9025),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('c5d8c11e-a17b-4779-ad78-954bfcf1c5d7'),
-            'password' => env('ddcbb82d-a063-4ce3-88c0-9ed94e3a7cc0'),
+            'username' => env('MAIL_USERNAME'), //
+            'password' => env('MAIL_PASSWORD'), //
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],

@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        //
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('path');
-            $table->string('size');
-            $table->string('type');
-            $table->integer('user_id');
-            $table->integer('folder_id');
+            $table->string('email');
+            $table->string('password');
         });
     }
 
@@ -31,6 +29,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        //
+        Schema::dropIfExists('users');
     }
 };
