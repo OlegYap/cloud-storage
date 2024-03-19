@@ -31,7 +31,7 @@ class FileController
             } else {
                 return view('errorFile');
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $exception) {
             if (file_exists($destinationPath . $fileName)) {
                 unlink($destinationPath . $fileName);
             }

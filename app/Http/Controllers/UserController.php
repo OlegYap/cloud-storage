@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Services\RabbitMqService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Auth\Events\Registered;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 /*use MongoDB\Driver\Session;*/
 
 class UserController extends Controller
@@ -26,6 +30,20 @@ class UserController extends Controller
         $request->validated();
         $data = $request->all();
         $user = $this->create($data);
+
+        $rabbitMq = new RabbitMqService('rabbitmq',5672,'user','password');
+        $rabbitMq->publish('testMail','verification');
+
+/*        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'password');
+        $channel = $connection->channel();
+
+        $channel->queue_declare('mail', false, true, false, false);
+
+        $msg = new AMQPMessage('verification');
+        $channel->basic_publish($msg, '', 'mail');
+        $channel->close();
+        $connection->close();;*/
+
         $user->sendEmailVerificationNotification();
         event(new Registered($user));
         return redirect(url("login"))->withSuccess('You have signed-in');
