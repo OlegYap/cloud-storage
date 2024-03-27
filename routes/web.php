@@ -57,6 +57,7 @@ Route::post('/email/verification-notification', function (Request $request) {
    return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+
 Route::get('sendbasicemail',[MailController::class, 'basic_email']);
 Route::get('sendhtmlemail',[MailController::class, 'html_email']);
 Route::get('sendattachmentemail',[MailController::class, 'attachment_email']);

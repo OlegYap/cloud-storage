@@ -25,7 +25,7 @@ class FolderController extends Controller
     public function viewFolder(int $folderId)
     {
         $userId = Auth::id();
-        $folder = Folder::where('id', $folderId)->where('user_id', $userId)->firstOrFail();
+        $folder = Folder::where('id', $folderId)->where('user_id', $userId)->firstOrFail(); //Использовать здесь relations
         if ($folder->user_id !== Auth::id()) {
             return redirect()->route('login');
         }

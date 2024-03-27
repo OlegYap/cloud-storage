@@ -1,40 +1,36 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Mail\MailSend;
+use App\Models\User;
 use App\Http\Requests\FileRequest;
 use App\Models\File;
 use App\Models\Folder;
+use App\Services\FileService;
+use App\Services\RabbitMqService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Util\Exception;
 
+
 class FileController
 {
+    private $fileService;
+    public function __construct(FileService $fileService)
+    {
+        $this->fileService = $fileService;
+    }
+
     public function uploadFile(FileRequest $request)
     {
-        try {
-            $request->validated();
-            $file = $request->file('file');
-            $destinationPath = "uploads/";
-            $fileName = $file->getClientOriginalName();
-            if ($file->move($destinationPath, $fileName)) {
-                $fileData = new File();
-                $fileData->name = $fileName;
-                $fileData->path = $file->getRealPath();
-                $fileData->size = $file->getSize();
-                $fileData->type = $file->getClientMimeType();
-                $fileData->user_id = Auth::id();
-                $fileData->folder_id = 0;
-                $fileData->save();
-                return redirect(url("main"));
-            } else {
-                return view('errorFile');
-            }
-        } catch (\Throwable $exception) {
-            if (file_exists($destinationPath . $fileName)) {
-                unlink($destinationPath . $fileName);
-            }
+        $file = $request->file('file');
+        $result = $this->fileService->upload($file);
+        if ($result) {
+            return redirect(url("main"));
+        } else {
             return view('errorFile');
         }
     }

@@ -34,18 +34,11 @@ class UserController extends Controller
         $rabbitMq = new RabbitMqService('rabbitmq',5672,'user','password');
         $rabbitMq->publish('testMail','verification');
 
-/*        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'password');
-        $channel = $connection->channel();
-
-        $channel->queue_declare('mail', false, true, false, false);
-
-        $msg = new AMQPMessage('verification');
-        $channel->basic_publish($msg, '', 'mail');
-        $channel->close();
-        $connection->close();;*/
-
         $user->sendEmailVerificationNotification();
         event(new Registered($user));
+        $rabbitMq->consume('testMail', function ($msg) {
+            echo ' [x] Received ', $msg->body, "\n";
+        });
         return redirect(url("login"))->withSuccess('You have signed-in');
     }
 

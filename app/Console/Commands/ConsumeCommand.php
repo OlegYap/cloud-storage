@@ -2,8 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\MailController;
+use App\Mail\MailSend;
+use App\Models\User;
 use App\Services\RabbitMqService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class ConsumeCommand extends Command
@@ -27,31 +32,23 @@ class ConsumeCommand extends Command
      *
      *
      */
+
+    protected $rabbitMqService;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->rabbitMqService = new RabbitMqService('rabbitmq',5672,'user','password');
+    }
+
     public function handle()
     {
-        $rabbitMq = new RabbitMqService('rabbitmq',5672,'user','password');
-        $rabbitMq->consume('tester', function ($msg) {
-            echo ' [x] Received ', $msg->body, "\n";
+        $this->rabbitMqService->consume('email',function ($message){
+            $message = json_decode($message->body,true);
+            $email = $message['email'];
+            $fileName = $message['name'];
+            Log::info('Получено сообщение из publish:', $message);
+            Mail::to($email)->send(new MailSend($fileName));
         });
-
-
-        /*$connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'password');
-        $channel = $connection->channel();
-
-        $channel->queue_declare('hello', false, true, false, false);
-
-        echo " [*] Waiting for messages. To exit press CTRL+C\n";
-
-        $callback = function ($msg) {
-            echo ' [x] Received ', $msg->body, "\n";
-        };
-
-        $channel->basic_consume('hello', '', false, true, false, false, $callback);
-
-        try {
-            $channel->consume();
-        } catch (\Throwable $exception) {
-            echo $exception->getMessage();
-        }*/
     }
 }
