@@ -36,6 +36,12 @@
             <button type="submit" class="btn btn-primary">Создать папку</button>
         </form>
     </div>
+{{--    <div>
+        <h2>Погода</h2>
+        <p>Температура: {{ $weatherData['main']['temp'] }} °C</p>
+    </div>--}}
+    <div id="openweathermap-widget-15"></div>
+    <script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  window.myWidgetParam.push({id: 15,cityid: '2014407',appid: '0668d2df1055c5b0ca26e75facb5dbb9',units: 'metric',containerid: 'openweathermap-widget-15',  });  (function() {var script = document.createElement('script');script.async = true;script.charset = "utf-8";script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>
     <h2>
         Your Files
     </h2>
