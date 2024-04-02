@@ -37,6 +37,9 @@
             <button type="submit" class="btn btn-primary">Создать папку</button>
         </form>
     </div>
+    <div class="button">
+        <a href="/main">Вернуться на главную</a>
+    </div>
     <h2>Files</h2>
     <ul>
         @foreach($files as $file)

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FolderController extends Controller
 {
+
     public function createFolder(FolderRequest $request)
     {
         $request->validated();
@@ -24,13 +25,15 @@ class FolderController extends Controller
 
     public function viewFolder(int $folderId)
     {
-        $userId = Auth::id();
-        $folder = Folder::where('id', $folderId)->where('user_id', $userId)->firstOrFail(); //Использовать здесь relations
+        $user = Auth::user();
+/*        $folder = Folder::where('id', $folderId)->where('user_id', $userId)->firstOrFail(); //Использовать здесь relations*/
+        $folder = $user->folders()->findOrFail($folderId);
         if ($folder->user_id !== Auth::id()) {
             return redirect()->route('login');
         }
-        $files = File::where('folder_id', $folderId)->get();
-        $subfolders = Folder::where('parent_id', $folderId)->get();
+
+        $files = $folder->files;
+        $subfolders = $folder->subfolders;
 
         return view('folder', compact('folder', 'files', 'subfolders'));
     }

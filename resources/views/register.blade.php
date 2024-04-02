@@ -37,6 +37,12 @@
                                     @endif
                                 </div>
                                 <div class="form-group mb-3">
+                                    <input type="text" placeholder="Please enter your city" id="city" class="form-control" name="city" required>
+                                    @if ($errors->has('city'))
+                                        <span class="text-danger">{{ $errors->first('city') }}</span>
+                                    @endif
+                                </div>
+                                <div class="form-group mb-3">
                                     <div class="checkbox">
                                         <label><input type="checkbox" name="remember"> Remember Me</label>
                                     </div>
@@ -52,3 +58,4 @@
         </div>
     </main>
 @endsection
+

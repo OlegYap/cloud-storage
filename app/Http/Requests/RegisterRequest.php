@@ -27,6 +27,7 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'city' => 'required|string'
         ];
     }
     public function messages()
@@ -35,6 +36,7 @@ class RegisterRequest extends FormRequest
             'name.required' => '"Имя" обязательно для заполнения.',
             'email.required' => '"Email" обязательно для заполнения.',
             'password.required' => '"Пароль" обязательно для заполнения.',
+            'city.required' => '"Город" обязательно для заполнения.'
         ];
     }
 }
