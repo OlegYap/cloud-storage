@@ -37,11 +37,15 @@ Route::post('/main', [FileController::class, 'uploadFile'])->name('main');
 
 Route::get('/download/{file_id}', [FileController::class, 'downloadFile'])->name('download');
 Route::get('/view/{file_id}', [FileController::class, 'viewFile'])->name('viewFile');
+Route::get('/share/{file_id}', [FileController::class, 'shareFile'])->name('share');
+Route::post('/delegate/{file_id}', [FileController::class, 'delegateFile'])->name('delegateFile');
+
+
+
 
 Route::post('/create',[FolderController::class, 'createFolder'])->name('folder');
 Route::get('/viewFolder/{folder_id}', [FolderController::class, 'viewFolder'])->name('viewFolder');
 Route::post('uploadFile',[FolderController::class, 'uploadFile'])->name('upload');
-
 Route::post('create/{parent_id}', [FolderController::class, 'createSubfolder'])->name('subFolder');
 
 Route::get('/email/verify', function (){

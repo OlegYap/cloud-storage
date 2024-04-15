@@ -1,3 +1,4 @@
+
 @extends('layouts')
 @section('content')
     <!DOCTYPE html>
@@ -48,8 +49,23 @@
             <li>
                 <a href="{{ asset('storage/' . $file->name) }}">{{ $file->name }}</a>
                 <br>
+                <span>Добавлен: {{ $file->created_at->diffForHumans() }}</span>
+                <br>
+{{--
+                <span>Удалится через: {{ $file->created_at->addDays(7)->diffForHumans() }}</span>
+--}}
+                <span>Удалится через: {{ $file->created_at->addMinutes(10)->diffForHumans() }}</span>
+                <br>
                 <a href="{{ route('download', ['file_id' => $file->id]) }}" class="btn btn-primary">Download</a>
                 <a href="{{ route('viewFile', ['file_id' => $file->id]) }}" class="btn btn-primary">View</a>
+                <form method="POST" action="{{ route('delegateFile', ['file_id' => $file->id]) }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email пользователя, которому вы хотите отправить файл</label>
+                        <input class="form-control" name="email" type="email" id="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Поделиться</button>
+                </form>
             </li>
         @endforeach
     </ul>
@@ -69,6 +85,3 @@
 </html>
 @endsection
 
-<style>
-
-</style>

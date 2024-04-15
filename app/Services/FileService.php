@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class FileService
 {
@@ -27,6 +29,8 @@ class FileService
                 $fileData->type = $file->getClientMimeType();
                 $fileData->user_id = Auth::id();
                 $fileData->folder_id = 0;
+                $fileData->created_at = now();
+                $fileData->updated_at = now();
                 $fileData->save();
 
                 $message = [

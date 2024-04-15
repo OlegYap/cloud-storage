@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Util\Exception;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
+use App\Mail\DelegateFileMail;
 
 class FileController
 {
@@ -37,23 +39,18 @@ class FileController
 
     public function downloadFile(int $fileId)
     {
-/*        $userId = Auth::id();
-        $file = File::where('id', $fileId)->where('user_id', $userId)->firstOrFail();*/
         $user = Auth::user();
         $file = $user->files()->findOrFail($fileId);
         if ($file->user_id !== Auth::id()) {
             return redirect()->route('login');
         }
-        $pathToFile = public_path('uploads/' . $file->name);
 
+        $pathToFile = public_path('uploads/' . $file->name);
         return response()->download($pathToFile);
     }
 
     public function viewFile(int $fileId)
     {
-/*        $userId = Auth::id();
-        $file = File::where('id', $fileId)->where('user_id', $userId)->firstOrFail();*/
-
         $user = Auth::user();
         $file = $user->files()->findOrFail($fileId);
 
@@ -62,5 +59,17 @@ class FileController
         }
         $pathToFile = public_path('uploads/' . $file->name);
         return response()->file($pathToFile);
+    }
+
+    public function delegateFile(Request $request, int $fileId)
+    {
+        $user = Auth::user();
+        $file = $user->files()->findOrFail($fileId);
+        if ($file->user_id !== Auth::id()) {
+            return redirect()->route('login');
+        }
+        $delegateEmail = $request->input('email');
+        Mail::to($delegateEmail)->send(new DelegateFileMail($file));
+        return redirect()->back()->with('success', 'Файл успешно отправлен');
     }
 }
