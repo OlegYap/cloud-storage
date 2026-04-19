@@ -20,8 +20,8 @@ class FileFactory extends Factory
             'name' => fake()->name,
             'size' => fake(),
             'type' => fake(),
-            'user_id' => random_int(1,10),
-            'folder_id' => random_int(1,10),
+            'user_id' => random_int(1, 10),
+            'folder_id' => random_int(1, 10),
             //
         ];
     }

@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Models\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class FileService
 {
@@ -14,12 +12,13 @@ class FileService
 
     public function __construct()
     {
-        $this->rabbitMqService = new RabbitMqService('rabbitmq', 5672, 'user', 'password');;
+        $this->rabbitMqService = new RabbitMqService('rabbitmq', 5672, 'user', 'password');
+        ;
     }
     public function upload($file)
     {
         try {
-            $destinationPath = "uploads/";
+            $destinationPath = 'uploads/';
             $fileName = $file->getClientOriginalName();
             if ($file->move($destinationPath, $fileName)) {
                 $fileData = new File();

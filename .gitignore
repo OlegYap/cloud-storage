@@ -19,3 +19,4 @@ yarn-error.log
 sourcefiles/
 public/uploads
 rabbitmq
+.php-cs-fixer.cache

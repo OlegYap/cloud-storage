@@ -6,14 +6,10 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Services\RabbitMqService;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Auth\Events\Registered;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
 /*use MongoDB\Driver\Session;*/
 
@@ -31,15 +27,15 @@ class UserController extends Controller
         $data = $request->all();
         $user = $this->create($data);
 
-        $rabbitMq = new RabbitMqService('rabbitmq',5672,'user','password');
-        $rabbitMq->publish('testMail','verification');
+        $rabbitMq = new RabbitMqService('rabbitmq', 5672, 'user', 'password');
+        $rabbitMq->publish('testMail', 'verification');
 
         $user->sendEmailVerificationNotification();
         event(new Registered($user));
         $rabbitMq->consume('testMail', function ($msg) {
             echo ' [x] Received ', $msg->body, "\n";
         });
-        return redirect(url("login"))->withSuccess('You have signed-in');
+        return redirect(url('login'))->withSuccess('You have signed-in');
     }
 
     public function create(array $data)
@@ -60,9 +56,9 @@ class UserController extends Controller
     public function postLogin(LoginRequest $request)
     {
         $request->validated();
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect(url("main"))->withSuccess('Signed in');
+            return redirect(url('main'))->withSuccess('Signed in');
         }
         return redirect('login')->withSuccess('Login details are not valid');
     }

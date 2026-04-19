@@ -2,10 +2,8 @@
 
 namespace App\Console;
 
-use App\Models\File;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Carbon;
 
 class Kernel extends ConsoleKernel
 {

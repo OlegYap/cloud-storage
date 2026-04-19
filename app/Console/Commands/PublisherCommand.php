@@ -6,6 +6,7 @@ use App\Services\RabbitMqService;
 use Illuminate\Console\Command;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+
 class PublisherCommand extends Command
 {
     /**
@@ -29,19 +30,19 @@ class PublisherCommand extends Command
      */
     public function handle()
     {
-        $rabbitMq = new RabbitMqService('rabbitmq',5672,'user','password');
-        $rabbitMq->publish('tester','Test',);
+        $rabbitMq = new RabbitMqService('rabbitmq', 5672, 'user', 'password');
+        $rabbitMq->publish('tester', 'Test', );
 
-/*        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'password');
-        $channel = $connection->channel();
+        /*        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'password');
+                $channel = $connection->channel();
 
-        $channel->queue_declare('hello', false, true, false, false);
+                $channel->queue_declare('hello', false, true, false, false);
 
-        $msg = new AMQPMessage('Hello World!');
-        $channel->basic_publish($msg, '', 'hello');
+                $msg = new AMQPMessage('Hello World!');
+                $channel->basic_publish($msg, '', 'hello');
 
-        echo " [x] Sent 'Hello World!'\n";
-        $channel->close();
-        $connection->close();*/
+                echo " [x] Sent 'Hello World!'\n";
+                $channel->close();
+                $connection->close();*/
     }
 }

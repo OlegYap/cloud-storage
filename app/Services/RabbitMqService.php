@@ -11,18 +11,18 @@ class RabbitMqService
     protected $channel;
     public function __construct(string $host, int $port, string $user, string $password)
     {
-        $this->connection = new AMQPStreamConnection($host,$port,$user,$password);
+        $this->connection = new AMQPStreamConnection($host, $port, $user, $password);
         $this->channel = $this->connection->channel();
     }
 
-    public function publish( string $queueName, string $messageBody)
+    public function publish(string $queueName, string $messageBody)
     {
-        $this->channel->queue_declare($queueName,false,true,false,false);
+        $this->channel->queue_declare($queueName, false, true, false, false);
         $message = new AMQPMessage($messageBody);
-        $this->channel->basic_publish($message,'',$queueName);
+        $this->channel->basic_publish($message, '', $queueName);
     }
 
-    public function consume( string $queueName, callable $callback)
+    public function consume(string $queueName, callable $callback)
     {
         try {
             $this->channel->queue_declare($queueName, false, true, false, false);

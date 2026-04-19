@@ -1,22 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Mail\MailSend;
-use App\Models\User;
+
 use App\Http\Requests\FileRequest;
-use App\Models\File;
-use App\Models\Folder;
+use App\Mail\DelegateFileMail;
 use App\Services\FileService;
-use App\Services\RabbitMqService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use PHPUnit\Util\Exception;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\URL;
-use App\Mail\DelegateFileMail;
 
 class FileController
 {
@@ -31,7 +22,7 @@ class FileController
         $file = $request->file('file');
         $result = $this->fileService->upload($file);
         if ($result) {
-            return redirect(url("main"));
+            return redirect(url('main'));
         } else {
             return view('errorFile');
         }
