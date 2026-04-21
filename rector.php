@@ -15,6 +15,6 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withSets([
-        SetList::PHP_83,
+        SetList::PHP_84,
         LaravelSetList::LARAVEL_110,
     ]);
