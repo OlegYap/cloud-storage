@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\File;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 
 class DeleteOldFiles extends Command
 {
@@ -29,7 +29,7 @@ class DeleteOldFiles extends Command
      */
     public function handle()
     {
-/*        $files = File::where('created_at', '<=', Carbon::now()->subWeek())->get();*/
+        /*        $files = File::where('created_at', '<=', Carbon::now()->subWeek())->get();*/
         $files = File::where('created_at', '<=', Carbon::now()->subMinutes(10))->get();
         foreach ($files as $file) {
             $filePath = public_path('uploads/' . $file->name);

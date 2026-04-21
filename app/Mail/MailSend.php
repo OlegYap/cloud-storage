@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class MailSend extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $fileName;
 
@@ -19,7 +20,7 @@ class MailSend extends Mailable
      *
      * @return void
      */
-    public function __construct($fileName,)
+    public function __construct($fileName)
     {
         $this->fileName = $fileName;
     }
@@ -29,7 +30,6 @@ class MailSend extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-
 
     public function envelope()
     {
@@ -64,5 +64,3 @@ class MailSend extends Mailable
         return [];
     }
 }
-
-

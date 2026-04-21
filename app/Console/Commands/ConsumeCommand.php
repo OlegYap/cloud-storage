@@ -2,14 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\MailController;
 use App\Mail\MailSend;
-use App\Models\User;
 use App\Services\RabbitMqService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class ConsumeCommand extends Command
 {
@@ -38,13 +35,13 @@ class ConsumeCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->rabbitMqService = new RabbitMqService('rabbitmq',5672,'user','password');
+        $this->rabbitMqService = new RabbitMqService('rabbitmq', 5672, 'user', 'password');
     }
 
     public function handle()
     {
-        $this->rabbitMqService->consume('email',function ($message){
-            $message = json_decode($message->body,true);
+        $this->rabbitMqService->consume('email', function ($message) {
+            $message = json_decode($message->body, true);
             $email = $message['email'];
             $fileName = $message['name'];
             Log::info('Получено сообщение из publish:', $message);
